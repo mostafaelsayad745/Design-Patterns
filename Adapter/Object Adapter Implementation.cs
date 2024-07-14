@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace Adapter
+namespace ObjectAdapter
 {
    public class CityFromExternalSystem
    {
@@ -21,7 +16,9 @@ namespace Adapter
         public int Inhibtants { get;private set; }
 
     }
-
+    /// <summary>
+    /// Adaptee
+    /// </summary>
     public class ExternalSystem
     {
         public CityFromExternalSystem GetCity()
@@ -42,19 +39,26 @@ namespace Adapter
         public long Inhibtants { get;private set; }
     }
 
+    /// <summary>
+    /// Target
+    /// </summary>
     public interface ICityAdapter
     {
         city GetCity();
     }
 
+    /// <summary>
+    /// Adapter
+    /// </summary>
     public class cityAdapter : ICityAdapter
     {
         public ExternalSystem ExternalSystem { get;private set; } = new();
         public city GetCity()
         {
+            // call into external system
             var cityFromExternalSystem = ExternalSystem.GetCity();
-
-            return new city($"{cityFromExternalSystem.Name} , {cityFromExternalSystem.NickName}", cityFromExternalSystem.Inhibtants);
+			// adapt from cityFromExternalSystem to city
+			return new city($"{cityFromExternalSystem.Name} , {cityFromExternalSystem.NickName}", cityFromExternalSystem.Inhibtants);
         }
     }
 
